@@ -1,52 +1,46 @@
-float locx, locy;
-float velox, veloy;
-float accelx, accely;
+PVector loc;
+PVector velo;
+PVector accel;
 float sz = 50;
 
 void setup() {
   colorMode(HSB, 360, 100, 100, 100);
   size(800, 700);
   background(70);
-  locx = width/2;
-  locy = height/2;
-  velox = 0;
-  veloy = 0;
-  accelx = random(-.1, .1);
-  accely = random(-.1, .1);
+
+  loc = new PVector(width/2, height/2);
+  velo = new PVector(0, 0);
+  accel = new PVector(-.1, .1);
 }
 
 void draw() {
-  accelx = random(-2, 2);
-  accely = random(-2, 2);
+  accel.set(random(-2, 2), random(-2, 2));
 
   fill(frameCount%360, 32, 99);
   stroke(frameCount%360, 32, 99);
 
-  velox += accelx;
-  veloy += accely;
+  velo.add(accel);
 
-  velox = constrain(velox, -10, 10);
-  veloy = constrain(veloy, -10, 10);
+  velo.limit(7);
 
-  locx += velox;
-  locy += veloy;
+  loc.add(velo);
 
-  ellipse(locx, locy, sz, sz);
+  ellipse(loc.x, loc.y, sz, sz);
 
-  if (locx - sz/2 > width) {
-    locx = -sz/2;
+  if (loc.x - sz/2 > width) {
+    loc.x = -sz/2;
   }
 
-  if (locx + sz/2 < 0) {
-    locx = width + sz/2;
+  if (loc.x + sz/2 < 0) {
+    loc.x = width + sz/2;
   }
 
-  if (locy - sz/2 > height) {
-    locy = - sz/2;
+  if (loc.y - sz/2 > height) {
+    loc.y = - sz/2;
   }
 
-  if (locy + sz/2 < 0) {
-    locy = height + sz/2;
+  if (loc.y + sz/2 < 0) {
+    loc.y = height + sz/2;
   }
 }
 
