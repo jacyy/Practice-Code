@@ -1,70 +1,64 @@
-float sz;
-PVector loc, velo, acc;
-PVector mouse;
-float sz2;
-PVector loc2, velo2, acc2;
+int count = 30;
+
+float[] sz = new float[count];
+PVector[] loc = new PVector[count];
+PVector[] velo = new PVector[count];
+PVector[] acc = new PVector[count];
 
 void setup() {
   size(1000, 700);
-  sz = 250;
-  loc = new PVector(width/2, height/2);
-  velo = new PVector(7, 7);
-  acc = new PVector(0, 0);
-  mouse = new PVector();
-  sz2 = 200;
-  loc2 = new PVector(width/5, height/5);
-  velo2 = new PVector(-5, -5);
-  acc2 = new PVector(0, 0);
+  colorMode(HSB, 360, 100, 100, 100);
+
+  for (int i = 0; i < count; i++) {
+    sz[i] = random(40, 70);
+    loc[i] = new PVector(random(sz[i], width-sz[i]), random(sz[i], height-sz[1]));
+    velo[i] = new PVector(3, 3);
+    acc[i] = new PVector(0, 0);
+  }
 }
 
 void draw() {
   background(50);
 
-  velo.add(acc);
-  loc.add(velo);
+  for (int i = 0; i < count; i++) {
+    velo[i].add(acc[i]);
+    loc[i].add(velo[i]);
 
-  velo2.add(acc2);
-  loc2.add(velo2);
 
-  if (loc.dist(loc2) < sz/2 + sz2/2) {
+    for (int j = 0; j < count; j++) {
+      if (i!=j) {
+        if (loc[i].dist(loc[j]) < sz[i]/2 + sz[j]/2) {
 
-    if (loc.x < loc2.x) {
-      velo.x = -abs(velo.x);
-      velo2.x = abs(velo2.x);
-    } else {
-      velo.x = abs(velo.x);
-      velo2.x = -abs(velo2.x);
+          if (loc[i].x < loc[j].x) {
+            velo[i].x = -abs(velo[i].x);
+            velo[j].x = abs(velo[j].x);
+          } else {
+            velo[i].x = abs(velo[i].x);
+            velo[j].x = -abs(velo[j].x);
+          }
+
+          if (loc[i].y < loc[j].y + sz[j]/2) {
+            velo[i].y = -abs(velo[i].y);
+            velo[j].y = abs(velo[j].y);
+          } else {
+            velo[i].y = abs(velo[i].y);
+            velo[j].y = -abs(velo[j].y);
+          }
+        }
+      }
     }
 
-    if (loc.y < loc2.y + sz2/2) {
-      velo.y = -abs(velo.y);
-      velo2.y = abs(velo2.y);
-    } else {
-      velo.y = abs(velo.y);
-      velo2.y = -abs(velo2.y);
+    ellipse(loc[i].x, loc[i].y, sz[i], sz[i]);
+    fill(frameCount%360, 25, 99);
+
+
+    if (loc[i].x + sz[i]/2 > width || loc[i].x - sz[i]/2 < 0) {
+      velo[i].x *= -1;
     }
-  }
 
-  fill(201, 243, 255);
-  ellipse(loc.x, loc.y, sz, sz);
-
-  fill(255, 191, 191);
-  ellipse(loc2.x, loc2.y, sz2, sz2);
-
-  if (loc.x + sz/2 > width || loc.x - sz/2 < 0) {
-    velo.x *= -1;
-  }
-
-  if (loc.y + sz/2 > height || loc.y - sz/2 < 0) {
-    velo.y *= -1;
-  }
-
-  if (loc2.x + sz2/2 > width || loc2.x - sz2/2 < 0) {
-    velo2.x *= -1;
-  }
-
-  if (loc2.y + sz2/2 > height || loc2.y - sz2/2 < 0) {
-    velo2.y *= -1;
+    if (loc[i].y + sz[i]/2 > height || loc[i].y - sz[i]/2 < 0) {
+      velo[i].y *= -1;
+    }
   }
 }
 
