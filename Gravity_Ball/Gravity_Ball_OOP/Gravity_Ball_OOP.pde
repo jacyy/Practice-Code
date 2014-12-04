@@ -1,9 +1,9 @@
-GravityBall[] g = new GravityBall[100];
+GravityBall[] g = new GravityBall[200];
 
 void setup() {
   size(displayWidth, displayHeight);
   for (int i = 0; i < g.length; i++) {
-    g[i] = new GravityBall();
+    g[i] = new GravityBall(random(25, 100));
   }
   noCursor();
   colorMode(HSB, 360, 100, 100, 100);
@@ -21,20 +21,24 @@ void draw() {
 // declare GravityBall variables
 class GravityBall {
   PVector loc, velo, acc;
-  float sz;
+  float sz, hue, sat, bright, alpha;
 
   // initialize GravityBall variables
-  GravityBall() {
-    sz = random(30, 80);
+  GravityBall(float tempsz) {
+    sz = tempsz;
     velo = new PVector(random(5, 18), random(5, 20));
-    acc = new PVector(0, .1);
+    acc = new PVector(0, .05);
     loc = new PVector(random(0, width), random(0, height));
+    hue = random(360);
+    sat = 20;
+    bright = 100;
+    alpha = 50;
   }
 
   // what the GravityBall does
 
   void display() {
-    fill(frameCount%(random(360)), 20, 100, 50);
+    fill(hue, sat, bright, alpha);
     ellipse(loc.x, loc.y, sz, sz);
   }
 
