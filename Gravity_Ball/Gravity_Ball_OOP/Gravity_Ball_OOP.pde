@@ -1,20 +1,27 @@
-GravityBall[] g = new GravityBall[200];
+GravityBall[] balls = new GravityBall[800];
 
 void setup() {
   size(displayWidth, displayHeight);
-  for (int i = 0; i < g.length; i++) {
-    g[i] = new GravityBall(random(25, 100));
+  for (int i = 0; i < balls.length; i++) {
+    balls[i] = new GravityBall(random(6, 30));
   }
   noCursor();
+  stroke(200, 150);
   colorMode(HSB, 360, 100, 100, 100);
 }
 
 void draw() {
-  background(0, 0, 99);
-  for (int i = 0; i < g.length; i ++) {
-    g[i].display();
-    g[i].move();
-    g[i].bounce();
+  background(0, 0, 100);
+  for (int i = 0; i < balls.length; i ++) {
+    balls[i].display();
+    balls[i].move();
+    balls[i].bounce();
+
+    for (int j = 0; j < balls.length; j++) {
+      if (i!=j) {
+        balls[i].collide(balls[j]);
+      }
+    }
   }
 }
 
@@ -26,11 +33,11 @@ class GravityBall {
   // initialize GravityBall variables
   GravityBall(float tempsz) {
     sz = tempsz;
-    velo = new PVector(random(5, 18), random(5, 20));
-    acc = new PVector(0, .05);
-    loc = new PVector(random(0, width), random(0, height));
+    velo = new PVector(random(10), .1);
+    acc = new PVector(0, 0);
+    loc = new PVector(random(sz, width - sz/2), random(sz, height - sz/2));
     hue = random(360);
-    sat = 20;
+    sat = 40;
     bright = 100;
     alpha = 50;
   }
@@ -48,18 +55,19 @@ class GravityBall {
   }
 
   void bounce() {
-    if (loc.y + sz/2 > height) {
-      velo.y *= -.9;
-      loc.y = height - sz/2;
+    if (loc.y + sz/2 > height || loc.y - sz/2 < 0) {
+      velo.y *= -abs(.9);
     }
 
-    if (loc.x + sz/2 > width) {
-      velo.x = -abs(velo.x) * .9;
+    if (loc.x + sz/2 > width || loc.x - sz/2 < 0) {
+      velo.x *= -abs(.9);
     }
+  }
 
-    if (loc.x - sz/2 < 0) {
-      velo.x = abs(velo.x) * .9;
+  void collide(GravityBall other) {
+    if (loc.dist(other.loc) < sz/2 + other.sz/2) {
+      velo = PVector.sub(loc, other.loc);
+      velo.normalize();
     }
   }
 }
-
