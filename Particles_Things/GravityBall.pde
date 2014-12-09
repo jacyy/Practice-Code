@@ -4,15 +4,15 @@ class GravityBall {
   float sz, hue, sat, bright, alpha;
 
   // initialize GravityBall variables
-  GravityBall(float tempsz) {
+  GravityBall(float tempx, float tempy, float tempsz) {
     sz = tempsz;
-    velo = new PVector(0, 0);
-    acc = new PVector(0, 0);
-    loc = new PVector(mouseX, mouseY);
+    velo = new PVector(random(5), 0);
+    acc = new PVector(0, .1);
+    loc = new PVector(tempx, tempy);
     hue = random(360);
     sat = 40;
     bright = 100;
-    alpha = 50;
+    alpha = 100;
   }
 
   // what the GravityBall does
@@ -20,6 +20,7 @@ class GravityBall {
   void display() {
     fill(hue, sat, bright, alpha);
     ellipse(loc.x, loc.y, sz, sz);
+    alpha--;
   }
 
   void move() {
