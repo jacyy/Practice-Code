@@ -17,6 +17,7 @@ void draw() {
     b.display();
     b.move();
     b.bounce();
+ 
   }
   
   if (balls.size() > max) {

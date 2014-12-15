@@ -6,8 +6,8 @@ class GravityBall {
   // initialize GravityBall variables
   GravityBall(float tempx, float tempy, float tempsz) {
     sz = tempsz;
-    velo = new PVector(random(5), 0);
-    acc = new PVector(0, .1);
+    velo = new PVector(random(-5, 5), random(-5, 5));
+    acc = new PVector(random(-.1, .1), random(-.1, .1));
     loc = new PVector(tempx, tempy);
     hue = random(360);
     sat = 40;
@@ -24,7 +24,9 @@ class GravityBall {
   }
 
   void move() {
+    acc.set(random(-5, 5), random(-5, 5));
     velo.add(acc);
+    velo.limit(10);
     loc.add(velo);
   }
 
@@ -45,3 +47,4 @@ class GravityBall {
     }
   }
 }
+
