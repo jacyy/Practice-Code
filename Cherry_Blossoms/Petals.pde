@@ -1,40 +1,41 @@
+//declaring petalPic
 PImage petalPic;
 
-//declare GravityBall variables
+//declare Petals variables (location, velocity, acceleration, and size)
 class Petals {
   PVector loc, velo, acc;
   float sz;
 
-  //initialize GravityBall variables. When adding a GravityBall, you have to define the x location, y location, and the size
-  Petals(float tempsz) {
-    sz = tempsz;
+  //initialize Petals variables and picture
+  Petals() {
+    sz = random(5, 20);
     velo = new PVector(random(-5, 5), random(5));
     acc = new PVector(0, random(0, .01));
     loc = new PVector(random(width), random(height));
     petalPic = loadImage("petals.png");
   }
 
-//what the GravityBall does (display, move, and bounce)
+  //what the Petals do (display and move)
 
-  //displays the ball(s) and sets the color to pastel-ish colors
+  //displays the Petals as the image
   void display() {
-    image(petalPic, loc.x, loc.y, 16, 16);
+    image(petalPic, loc.x, loc.y, sz, sz);
   }
 
-  //moves the ball(s)
+  //moves the Petals
   void move() {
     acc.set(0, random(0, .01));
     velo.add(acc);
     velo.limit(1);
     loc.add(velo);
   }
-  
-  boolean isDead(){
-   if (loc.y > height) {
-     return true;
-   } else {
-     return false;
-   }
+
+  //when the Petals exit the screen, it disappears
+  boolean isDead() {
+    if (loc.y > height) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
-
