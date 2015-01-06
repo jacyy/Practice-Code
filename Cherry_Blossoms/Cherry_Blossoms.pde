@@ -12,7 +12,7 @@ void setup() {
   noCursor();
   colorMode(HSB, 360, 100, 100, 100);
   bg = loadImage("Cherry Blossoms.jpg");
-}
+} 
 
 
 void draw() {
